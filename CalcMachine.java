@@ -6,9 +6,9 @@ public class CalcMachine extends Frame implements ActionListener {
   Button bt0, btpl,btmn,btx,btdv,bteq, btdt,btClr,btmp,btmr,btrou;
   Button[] bt = new Button[10];
   TextField txt1;
-  String ss = "";
-  String ss2 = "";
-  double t1,t2,result=0;
+  String ss = "";   //画面上に表示する文字列
+  String ss2 = "";    // 計算に使うための数字を格納する文字列
+  double t1,result=0;   //t1には入力した数値を、resultには演算結果を代入
   double memory=0;
   int k ;
   
@@ -38,7 +38,7 @@ public class CalcMachine extends Frame implements ActionListener {
     Panel p_center = new Panel();
     p_center.setLayout(new GridLayout(3, 3));
 
-    for(int i = 1;i<bt.length;i++){
+    for(int i = 1;i<bt.length;i++){ //数字のボタンは配列に
         bt[i] = new Button(""+i);
         p_center.add(bt[i]);
         bt[i].addActionListener(this);
@@ -53,16 +53,16 @@ public class CalcMachine extends Frame implements ActionListener {
     p_south.setLayout(new GridLayout(2, 4));
 
     bt0 = new Button("0");       p_south.add(bt0);
-    btClr = new Button("Clear"); p_south.add(btClr);
-    btpl = new Button("+");     p_south.add(btpl);
+    btClr = new Button("Clear"); p_south.add(btClr);    //クリアボタン
+    btpl = new Button("+");     p_south.add(btpl);  
     btmn = new Button("-");     p_south.add(btmn);
     btx = new Button("×");      p_south.add(btx);
     btdv = new Button("÷");     p_south.add(btdv);
-    btdt = new Button(".");     p_south.add(btdt);
-    bteq = new Button("=");     p_south.add(bteq);
-    btmp = new Button("m+");    p_south.add(btmp);
-    btmr = new Button("MR");    p_south.add(btmr);
-    btrou = new Button("√");    p_south.add(btrou);
+    btdt = new Button(".");     p_south.add(btdt);  //小数点ボタン
+    bteq = new Button("=");     p_south.add(bteq);  //イコールボタン
+    btmp = new Button("m+");    p_south.add(btmp);  //メモリ数への足し算
+    btmr = new Button("MR");    p_south.add(btmr);  //メモリ数の呼び出し
+    btrou = new Button("√");    p_south.add(btrou); //表示している数の平方根
 
     bt0.addActionListener(this);
     btClr.addActionListener(this);
@@ -89,11 +89,11 @@ public class CalcMachine extends Frame implements ActionListener {
         t1 = 0;
     }
     else if(btn == btpl || btn == btmn || btn == btx || btn == btdv){
-        ss = ss + btn.getLabel();
-        ss2 = "";
+        ss = ss + btn.getLabel();   //画面上に表示する文字列
+        ss2 = "";   // 計算に使うための数字を格納する文字列
         if(btn == btpl) k=0;
         else if(btn == btmn){
-            if(result==0){
+            if(result==0){  //何も数値がないときは数字の前にマイナスをつける。
                 ss = btn.getLabel();
                 ss2 = btn.getLabel();
             }
@@ -101,16 +101,16 @@ public class CalcMachine extends Frame implements ActionListener {
         }
         else if(btn == btx) k=2;
         else if(btn == btdv) k=3;
-        calculation(k);
+        calculation(k); //演算記号が押された段階で計算を実行
     } 
     else if(btn == bteq){
         calculation(k);
         t1 = 0;
-        ss = Double.valueOf(result).toString();
+        ss = Double.valueOf(result).toString(); //演算結果を文字列に変換して画面に表示
     }
 
     else if(btn == btmp){
-        if(result == 0) memory = t1 + memory;
+        if(result == 0) memory = t1 + memory;   //メモリーが押されたらメモリー変数に加算
         else memory = memory + result;
     }
 
@@ -120,12 +120,12 @@ public class CalcMachine extends Frame implements ActionListener {
         ss2 = Double.valueOf(result).toString();
     }
 
-    else if(btn == btrou){
+    else if(btn == btrou){  //平方根への変換の処理
         k=4;
         calculation(k);
         ss = Double.valueOf(result).toString();
     }
-    else {
+    else {      //普通に数字が押された時
         ss = ss + btn.getLabel();
         ss2 = ss2 + btn.getLabel();
         
@@ -137,26 +137,26 @@ public class CalcMachine extends Frame implements ActionListener {
 
   public void calculation(int k){
         switch (k) {
-            case 0:
+            case 0:     //足し算
                 result = result + t1 ;
                 t1 = 0;
                 break;
-            case 1:
+            case 1:     //引き算
                 if(result == 0) result = t1;
                 else result = result - t1;
                 t1 = 0;
                 break;
-            case 2:
+            case 2:     //掛け算
                 if(result==0) result = t1;
                 else result = result * t1;
                 t1 = 0;
                 break;
-            case 3:
+            case 3:     //割り算
                 if(result==0) result = t1;
                 else result = result / t1;
                 t1 = 0;
                 break;
-            case 4:
+            case 4:     //ルート
                 if(result==0) result = Math.sqrt(t1);
                 else result = Math.sqrt(result);
                 t1 = 0;
@@ -167,6 +167,6 @@ public class CalcMachine extends Frame implements ActionListener {
   }
 
   public void paint(Graphics g) {
-    txt1.setText(ss);
+    txt1.setText(ss);       //画面表示
   }
 }
